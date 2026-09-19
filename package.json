@@ -27,6 +27,9 @@
     "format": "npx prettier --write src/ infrastructure_as_code/",
     "format-check": "npx prettier --check src/"
   },
+  "allowScripts": {
+    "better-sqlite3": true
+  },
   "keywords": [
     "AWS",
     "IAM"
