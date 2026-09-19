@@ -133,6 +133,7 @@
     "@aws-sdk/client-glacier": "^3.799.0",
     "@aws-sdk/client-glue": "^3.812.0",
     "@aws-sdk/client-iam": "^3.777.0",
+    "@aws-sdk/client-iot": "^3.1121.0",
     "@aws-sdk/client-kafka": "^3.876.0",
     "@aws-sdk/client-kinesis": "^3.873.0",
     "@aws-sdk/client-kms": "^3.782.0",

@@ -159,6 +159,7 @@ If you prefer, you can configure iam-collect to pull data from AWS Config instea
 | events            | Event Buses                       | name, key id, policy, tags                                                                                                          |
 | glacier           | Vaults                            | name, region, tags, policy                                                                                                          |
 | glue              | Root Catalogs                     | policy                                                                                                                              |
+| iot               | Policies                          | name, default version, default version doc, attachment targets                                                                      |
 | kafka             | MSK Clusters                      | name, policy, kms key, tags                                                                                                         |
 | kinesis           | Data Streams                      | name, encryption type, key id, policy, tags                                                                                         |
 | kms               | Keys                              | id, policy, tags                                                                                                                    |
