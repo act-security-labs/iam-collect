@@ -30,6 +30,7 @@ import { S3DirectoryBucketsSync } from './s3express/s3DirectoryBucketsSync.js'
 import { S3OutpostsAccessPointsSync, S3OutpostsBucketsSync } from './s3outposts/s3OutpostsSyncs.js'
 import { S3TableBucketsSync } from './s3tables/s3TablesSync.js'
 import { SecretSync } from './secretsmanager/secrets.js'
+import { SesIdentitiesSync } from './ses/identities.js'
 import { SnsTopicsSync } from './sns/topics.js'
 import { SqsQueueSync } from './sqs/queues.js'
 import { SsoDataSync } from './sso/ssoInstances.js'
@@ -68,6 +69,7 @@ const allSyncs = [
   S3OutpostsBucketsSync,
   S3TableBucketsSync,
   SecretSync,
+  SesIdentitiesSync,
   SnsTopicsSync,
   SqsQueueSync,
   SsoDataSync,

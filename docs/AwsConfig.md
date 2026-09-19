@@ -73,6 +73,7 @@ If your dataSource is AWS Config, iam-collect skips resource types that are not 
 | sns               | Topics                            | ✅               | AWS::SNS::Topic                                               |
 | sqs               | Queues                            | ✅               | AWS::SQS::Queue                                               |
 | secretsmanager    | Secrets                           | ❌               |                                                               |
+| ses               | Verified Identities               | ❌               |                                                               |
 | sso               | Instances                         | ❌               |                                                               |
 | sso               | Permission Sets                   | ❌               |                                                               |
 

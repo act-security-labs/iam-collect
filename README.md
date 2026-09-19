@@ -182,6 +182,7 @@ If you prefer, you can configure iam-collect to pull data from AWS Config instea
 | sns               | Topics                            | name, tags, kms key id, policy                                                                                                      |
 | sqs               | Queues                            | name, tags, kms key id, policy                                                                                                      |
 | secretsmanager    | Secrets                           | name, tags, kms key id, policy                                                                                                      |
+| ses               | Verified Identities               | name, identity type, sending authorization policies                                                                                 |
 | sso               | Instances                         | id, name, owner account id, status, tags                                                                                            |
 | sso               | Permission Sets                   | name, description, AWS managed policies, customer managed policies, inline policy, permission boundary, accounts, tags              |
 

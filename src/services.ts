@@ -26,6 +26,7 @@ export const allServices = [
   's3outposts',
   's3tables',
   'secretsmanager',
+  'ses',
   'sns',
   'sqs',
   'sso'

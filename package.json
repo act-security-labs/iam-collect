@@ -145,6 +145,7 @@
     "@aws-sdk/client-s3outposts": "^3.817.0",
     "@aws-sdk/client-s3tables": "^3.804.0",
     "@aws-sdk/client-secrets-manager": "^3.787.0",
+    "@aws-sdk/client-ses": "^3.1121.0",
     "@aws-sdk/client-sns": "^3.797.0",
     "@aws-sdk/client-sqs": "^3.798.0",
     "@aws-sdk/client-sso-admin": "^3.787.0",
