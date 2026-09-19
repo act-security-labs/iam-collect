@@ -4,6 +4,7 @@
 export const allServices = [
   'apigateway',
   'backup',
+  'codebuild',
   'dynamodb',
   'ec2',
   'ecr',
