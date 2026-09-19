@@ -147,6 +147,7 @@ If you prefer, you can configure iam-collect to pull data from AWS Config instea
 | iam               | Instance Profiles                 | name, roles, id, path, tags                                                                                                         |
 | apigateway        | Rest APIs                         | id, name, policy, tags                                                                                                              |
 | backup            | Backup Vaults                     | name, key, tags, policy                                                                                                             |
+| codeartifact      | Repositories                      | name, region, domain name, domain owner, administrator account, description, tags, resource policy                                  |
 | dynamodb          | Streams                           | name, region, resource policy                                                                                                       |
 | dynamodb          | Tables                            | name, region, tags, resource policy                                                                                                 |
 | ecr               | Repositories                      | name, region, tags, resource policy, key id                                                                                         |
