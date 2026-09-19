@@ -1,3 +1,10 @@
+## [0.1.218](https://github.com/act-security-labs/iam-collect/compare/v0.1.217...v0.1.218) (2026-09-19)
+
+
+### Bug Fixes
+
+* use updated dependency updater action ([#353](https://github.com/act-security-labs/iam-collect/issues/353)) ([d14efdc](https://github.com/act-security-labs/iam-collect/commit/d14efdc18f35de3d7d57bad108f0a445873bd7e8))
+
 ## [0.1.217](https://github.com/act-security-labs/iam-collect/compare/v0.1.216...v0.1.217) (2026-09-01)
 
 ## [0.1.216](https://github.com/act-security-labs/iam-collect/compare/v0.1.215...v0.1.216) (2026-09-01)
