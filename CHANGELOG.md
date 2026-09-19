@@ -1,3 +1,10 @@
+## [0.1.219](https://github.com/act-security-labs/iam-collect/compare/v0.1.218...v0.1.219) (2026-09-19)
+
+
+### Bug Fixes
+
+* allow better-sqlite3 install script ([#354](https://github.com/act-security-labs/iam-collect/issues/354)) ([9828c80](https://github.com/act-security-labs/iam-collect/commit/9828c802b2b8baec7e7b35d988d80bf4e06ed6f4))
+
 ## [0.1.218](https://github.com/act-security-labs/iam-collect/compare/v0.1.217...v0.1.218) (2026-09-19)
 
 
