@@ -1,3 +1,5 @@
+## [0.1.220](https://github.com/act-security-labs/iam-collect/compare/v0.1.219...v0.1.220) (2026-09-26)
+
 ## [0.1.219](https://github.com/act-security-labs/iam-collect/compare/v0.1.218...v0.1.219) (2026-09-19)
 
 
