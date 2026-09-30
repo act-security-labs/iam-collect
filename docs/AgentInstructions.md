@@ -113,6 +113,17 @@ AWS ARNs are converted to filesystem paths using these rules:
 - **`encryption.json`**: Encryption configuration
 - **`bpa.json`**: Block Public Access settings (S3)
 
+Identity Store directory resources use their AWS Identity Store ARNs and are stored under
+`accounts/<account-id>/identitystore/`:
+
+- **Users** (`user/<user-id>/`): `metadata.json` contains profile attributes and `groups.json`
+  contains the Identity Store group ARNs for the user.
+- **Groups** (`group/<group-id>/`): `metadata.json` contains group attributes and `members.json`
+  contains the Identity Store user ARNs in the group.
+- **Memberships** (`membership/<membership-id>/`): `metadata.json` contains `groupArn` and
+  `memberArn` relationship endpoints, plus the source Identity Store and IAM Identity Center
+  instance identifiers.
+
 ### Organization Files
 
 - **`metadata.json`**: Organization details, root OU, features enabled

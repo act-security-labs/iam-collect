@@ -16,6 +16,7 @@ import { log } from '@actsecurity/log'
 import { convertTagsToRecord } from '../../utils/tags.js'
 import { type DataRecord, type Sync, syncData } from '../sync.js'
 import { createResourceSyncType, createTypedSyncOperation, paginateResource } from '../typedSync.js'
+import { createIdentityStoreDirectorySync } from './identityStoreDirectory.js'
 
 export const SsoDataSync: Sync = {
   awsService: 'sso',
@@ -86,7 +87,7 @@ export const SsoDataSync: Sync = {
 }
 
 function createSsoInstanceResourceSyncs(ssoInstance: InstanceMetadata, region: string) {
-  return [
+  const syncs = [
     createTypedSyncOperation(
       'sso',
       'permissionSets',
@@ -224,4 +225,12 @@ function createSsoInstanceResourceSyncs(ssoInstance: InstanceMetadata, region: s
       })
     )
   ]
+
+  if (ssoInstance.IdentityStoreId) {
+    syncs.push(
+      createIdentityStoreDirectorySync(ssoInstance.IdentityStoreId, ssoInstance.InstanceArn!)
+    )
+  }
+
+  return syncs
 }

@@ -188,5 +188,8 @@ If you prefer, you can configure iam-collect to pull data from AWS Config instea
 | ses               | Verified Identities               | name, identity type, sending authorization policies                                                                                 |
 | sso               | Instances                         | id, name, owner account id, status, tags                                                                                            |
 | sso               | Permission Sets                   | name, description, AWS managed policies, customer managed policies, inline policy, permission boundary, accounts, tags              |
+| sso               | Identity Store Users              | username, display name, profile attributes, external ids, groups                                                                    |
+| sso               | Identity Store Groups             | name, description, external ids, members                                                                                            |
+| sso               | Identity Store Group Memberships  | group and member relationships                                                                                                      |
 
 If you don't see the data you are looking for, please check the [open resource issues](https://github.com/act-security-labs/iam-collect/issues?q=is%3Aissue%20state%3Aopen%20label%3Aresource) and comment on the issue or create a new one.
