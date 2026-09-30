@@ -1,4 +1,4 @@
-import { ConcurrentWorkerPool } from '@cloud-copilot/job'
+import { ConcurrentWorkerPool } from '@actsecurity/job'
 import { AwsClientPool } from '../aws/ClientPool.js'
 import { type AwsCredentialProviderWithMetaData } from '../aws/coreAuth.js'
 import { type AwsIamStore, type ResourceTypeParts } from '../persistence/AwsIamStore.js'

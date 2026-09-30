@@ -1,5 +1,5 @@
 import { type AwsService } from '../services.js'
-import { log } from '@cloud-copilot/log'
+import { log } from '@actsecurity/log'
 
 /**
  *

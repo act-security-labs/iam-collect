@@ -61,7 +61,7 @@ By default the S3 storage will use the default configured credentials (or your d
     // Optional endpoint if using a specific VPC endpoint
     "endpoint": "https://s3.us-west-2.amazonaws.com",
 
-    //Auth configuration, see https://github.com/cloud-copilot/iam-collect/docs/Authentication.md
+    //Auth configuration, see https://github.com/act-security-labs/iam-collect/docs/Authentication.md
     "auth": {
       // Optional, if you have a specific profile configured that you would like to use.
       "profile": "my-profile",

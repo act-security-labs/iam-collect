@@ -1,4 +1,4 @@
-const { index, mergeSqliteDatabases } = require('@cloud-copilot/iam-collect')
+const { index, mergeSqliteDatabases } = require('@actsecurity/iam-collect')
 const fs = require('fs')
 const fsPromises = require('fs').promises
 const {

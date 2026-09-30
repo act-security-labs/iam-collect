@@ -1,4 +1,4 @@
-import { splitArnParts } from '@cloud-copilot/iam-utils'
+import { splitArnParts } from '@actsecurity/iam-utils'
 import DatabaseConstructor, { type Database } from 'better-sqlite3'
 import { createHash } from 'crypto'
 import {

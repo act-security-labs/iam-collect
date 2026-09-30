@@ -8,13 +8,13 @@ import {
   type PutObjectCommandInput,
   S3Client
 } from '@aws-sdk/client-s3'
-import { splitArnParts } from '@cloud-copilot/iam-utils'
+import { splitArnParts } from '@actsecurity/iam-utils'
 import { getCredentials } from '../../aws/auth.js'
 import { AwsClientPool } from '../../aws/ClientPool.js'
 import { getNewInitialCredentials } from '../../aws/coreAuth.js'
 import { type S3StorageConfig } from '../../config/config.js'
 import { runAndCatch404 } from '../../utils/client-tools.js'
-import { log } from '@cloud-copilot/log'
+import { log } from '@actsecurity/log'
 import { type PathBasedPersistenceAdapter } from '../PathBasedPersistenceAdapter.js'
 
 export class S3PathBasedPersistenceAdapter implements PathBasedPersistenceAdapter {

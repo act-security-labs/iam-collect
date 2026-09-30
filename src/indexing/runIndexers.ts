@@ -1,7 +1,7 @@
 import { type StorageConfig } from '../config/config.js'
 import { type Job, type JobResult, runJobs } from '../jobs/jobQueue.js'
 import { createStorageClient } from '../persistence/util.js'
-import { log } from '@cloud-copilot/log'
+import { log } from '@actsecurity/log'
 import { type Indexer } from './indexer.js'
 
 /**

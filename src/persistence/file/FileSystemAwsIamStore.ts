@@ -1,4 +1,4 @@
-import { splitArnParts } from '@cloud-copilot/iam-utils'
+import { splitArnParts } from '@actsecurity/iam-utils'
 import { join } from 'path'
 import {
   type AwsIamStore,

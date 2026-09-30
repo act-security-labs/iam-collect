@@ -36,7 +36,7 @@ If no accounts are specified on the CLI, or in the config, iam-collect will scan
 
 ## Selecting Services
 
-We tried to stay as closely to service codes as specified in the [SAR](https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html). A list of supported codes is in [services.ts](https://github.com/cloud-copilot/iam-collect/blob/main/src/services.ts)
+We tried to stay as closely to service codes as specified in the [SAR](https://docs.aws.amazon.com/service-authorization/latest/reference/reference_policies_actions-resources-contextkeys.html). A list of supported codes is in [services.ts](https://github.com/act-security-labs/iam-collect/blob/main/src/services.ts)
 
 To limit which AWS services are scanned across all accounts and regions, use the top-level `services` block in your config:
 

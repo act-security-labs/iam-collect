@@ -4,7 +4,7 @@ import {
   ListTopicsCommand,
   SNSClient
 } from '@aws-sdk/client-sns'
-import { log } from '@cloud-copilot/log'
+import { log } from '@actsecurity/log'
 import { type Sync } from '../sync.js'
 import { createResourceSyncType, createTypedSyncOperation } from '../typedSync.js'
 

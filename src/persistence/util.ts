@@ -1,4 +1,4 @@
-import { splitArnParts } from '@cloud-copilot/iam-utils'
+import { splitArnParts } from '@actsecurity/iam-utils'
 import { sep } from 'path'
 import { getStorageConfig, type StorageConfig, type TopLevelConfig } from '../config/config.js'
 import { iamCollectVersion } from '../config/packageVersion.js'

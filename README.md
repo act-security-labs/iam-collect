@@ -1,6 +1,6 @@
 # iam-collect
 
-[![NPM Version](https://img.shields.io/npm/v/@cloud-copilot/iam-collect.svg?logo=nodedotjs)](https://www.npmjs.com/package/@cloud-copilot/iam-collect) [![License: AGPL v3](https://img.shields.io/github/license/cloud-copilot/iam-collect)](LICENSE.txt) [![GuardDog](https://github.com/cloud-copilot/iam-collect/actions/workflows/guarddog.yml/badge.svg)](https://github.com/cloud-copilot/iam-collect/actions/workflows/guarddog.yml) [![Known Vulnerabilities](https://snyk.io/test/github/cloud-copilot/iam-collect/badge.svg?targetFile=package.json&style=flat-square)](https://snyk.io/test/github/cloud-copilot/iam-collect?targetFile=package.json)
+[![NPM Version](https://img.shields.io/npm/v/@actsecurity/iam-collect.svg?logo=nodedotjs)](https://www.npmjs.com/package/@actsecurity/iam-collect) [![License: AGPL v3](https://img.shields.io/github/license/act-security-labs/iam-collect)](LICENSE.txt) [![GuardDog](https://github.com/act-security-labs/iam-collect/actions/workflows/guarddog.yml/badge.svg)](https://github.com/act-security-labs/iam-collect/actions/workflows/guarddog.yml) [![Known Vulnerabilities](https://snyk.io/test/github/act-security-labs/iam-collect/badge.svg?targetFile=package.json&style=flat-square)](https://snyk.io/test/github/act-security-labs/iam-collect?targetFile=package.json)
 
 Get every possible policy in any set of AWS accounts. This is built to run out of the box in simple use cases, and also work in terribly oppressive environments with a little more configuration. If you want to analyze IAM data at scale this is what you've been looking for.
 
@@ -56,7 +56,7 @@ By default, iam-collect will use the credentials configured in your environment 
 You don't need the AWS CLI, but a good way to make sure your credentials are configured is to ensure you can run `aws sts get-caller-identity` and a command that requires a region be set such as `aws ec2 describe-instances`.
 
 ```bash
-npm install -g @cloud-copilot/iam-collect
+npm install -g @actsecurity/iam-collect
 # Create a default configuration file
 iam-collect init
 # Download iam data from the current account to `./iam-data`
@@ -68,7 +68,7 @@ iam-collect download
 You need Node.js >= 20.
 
 ```bash
-npm install -g @cloud-copilot/iam-collect
+npm install -g @actsecurity/iam-collect
 ```
 
 ### Initialize
@@ -109,14 +109,14 @@ This will show you your data that was downloaded. See the [storage docs](docs/St
 
 ### iam-lens
 
-To explore effective access in your environment check out [iam-lens](https://github.com/cloud-copilot/iam-lens). iam-lens reads your iam-collect data to answer questions like: "Who can access this resource?", "Who can assume this role?", and "Does this principal have access to this bucket?"
+To explore effective access in your environment check out [iam-lens](https://github.com/act-security-labs/iam-lens). iam-lens reads your iam-collect data to answer questions like: "Who can access this resource?", "Who can assume this role?", and "Does this principal have access to this bucket?"
 
 ### Leveraging Your AI
 
 Use [AgentInstructions.md](docs/AgentInstructions.md) to help your AI understand the data and how to interrogate it.
 
 ```bash
-curl -O https://raw.githubusercontent.com/cloud-copilot/iam-collect/main/docs/AgentInstructions.md
+curl -O https://raw.githubusercontent.com/act-security-labs/iam-collect/main/docs/AgentInstructions.md
 ```
 
 Then you can start asking questions like "Using AgentInstructions.md as context...":
@@ -147,6 +147,7 @@ If you prefer, you can configure iam-collect to pull data from AWS Config instea
 | iam               | Instance Profiles                 | name, roles, id, path, tags                                                                                                         |
 | apigateway        | Rest APIs                         | id, name, policy, tags                                                                                                              |
 | backup            | Backup Vaults                     | name, key, tags, policy                                                                                                             |
+| codeartifact      | Repositories                      | name, region, domain name, domain owner, administrator account, description, tags, resource policy                                  |
 | dynamodb          | Streams                           | name, region, resource policy                                                                                                       |
 | dynamodb          | Tables                            | name, region, tags, resource policy                                                                                                 |
 | ecr               | Repositories                      | name, region, tags, resource policy, key id                                                                                         |
@@ -159,6 +160,7 @@ If you prefer, you can configure iam-collect to pull data from AWS Config instea
 | events            | Event Buses                       | name, key id, policy, tags                                                                                                          |
 | glacier           | Vaults                            | name, region, tags, policy                                                                                                          |
 | glue              | Root Catalogs                     | policy                                                                                                                              |
+| iot               | Policies                          | name, default version, default version doc, attachment targets                                                                      |
 | kafka             | MSK Clusters                      | name, policy, kms key, tags                                                                                                         |
 | kinesis           | Data Streams                      | name, encryption type, key id, policy, tags                                                                                         |
 | kms               | Keys                              | id, policy, tags                                                                                                                    |
@@ -182,10 +184,11 @@ If you prefer, you can configure iam-collect to pull data from AWS Config instea
 | sns               | Topics                            | name, tags, kms key id, policy                                                                                                      |
 | sqs               | Queues                            | name, tags, kms key id, policy                                                                                                      |
 | secretsmanager    | Secrets                           | name, tags, kms key id, policy                                                                                                      |
+| ses               | Verified Identities               | name, identity type, sending authorization policies                                                                                 |
 | sso               | Instances                         | id, name, owner account id, status, tags                                                                                            |
 | sso               | Permission Sets                   | name, description, AWS managed policies, customer managed policies, inline policy, permission boundary, accounts, tags              |
 | sso               | Identity Store Users              | username, display name, profile attributes, external ids, groups                                                                    |
 | sso               | Identity Store Groups             | name, description, external ids, members                                                                                            |
 | sso               | Identity Store Group Memberships  | group and member relationships                                                                                                      |
 
-If you don't see the data you are looking for, please check the [open resource issues](https://github.com/cloud-copilot/iam-collect/issues?q=is%3Aissue%20state%3Aopen%20label%3Aresource) and comment on the issue or create a new one.
+If you don't see the data you are looking for, please check the [open resource issues](https://github.com/act-security-labs/iam-collect/issues?q=is%3Aissue%20state%3Aopen%20label%3Aresource) and comment on the issue or create a new one.

@@ -12,7 +12,7 @@ import {
   SSOAdminClient
 } from '@aws-sdk/client-sso-admin'
 import { runAndCatch404, runAndCatchAccessDenied, withDnsRetry } from '../../utils/client-tools.js'
-import { log } from '@cloud-copilot/log'
+import { log } from '@actsecurity/log'
 import { convertTagsToRecord } from '../../utils/tags.js'
 import { type DataRecord, type Sync, syncData } from '../sync.js'
 import { createResourceSyncType, createTypedSyncOperation, paginateResource } from '../typedSync.js'

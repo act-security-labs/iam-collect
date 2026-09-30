@@ -1,4 +1,4 @@
-import { log } from '@cloud-copilot/log'
+import { log } from '@actsecurity/log'
 
 /**
  * Represents the outcome of a job:

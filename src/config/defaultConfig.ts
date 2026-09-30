@@ -59,9 +59,9 @@ const defaultConfig = `
     "prefix": "iam-data/",
     "region": "us-west-2",
     "endpoint": "https://s3.us-west-2.amazonaws.com", // Optional endpoint if using a specific VPC endpoint
-    //Optional auth configuration, see https://github.com/cloud-copilot/iam-collect/docs/Storage.md
+    //Optional auth configuration, see https://github.com/act-security-labs/iam-collect/docs/Storage.md
     "auth": {
-      // See https://github.com/cloud-copilot/iam-collect/docs/Storage.md
+      // See https://github.com/act-security-labs/iam-collect/docs/Storage.md
     }
   },
   */
@@ -112,7 +112,7 @@ const defaultConfig = `
     "123456789012": {
       //Optional auth for the account:
       "auth": {
-        //The type of authentication to use https://github.com/cloud-copilot/iam-collect/docs/Authentication.md
+        //The type of authentication to use https://github.com/act-security-labs/iam-collect/docs/Authentication.md
       },
       "regions": {
         //Optional regions to include, if empty all regions are included
@@ -159,7 +159,7 @@ const defaultConfig = `
   // "excluded": ["iam"]
   // },
 
-  // Optional block for authentication, see , see https://github.com/cloud-copilot/iam-collect/docs/Authentication.md
+  // Optional block for authentication, see , see https://github.com/act-security-labs/iam-collect/docs/Authentication.md
   // "auth": {
   //  //The type of authentication to use before connecting to any individual accounts
   // }

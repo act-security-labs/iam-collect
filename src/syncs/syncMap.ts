@@ -1,6 +1,7 @@
 import { type AwsService, lowerCaseService } from '../services.js'
 import { RestApisSync } from './apigateway/gateways.js'
 import { BackupVaultsSync } from './backup/backupVaults.js'
+import { CodeArtifactRepositoriesSync } from './codeartifact/repositories.js'
 import { DynamoDbStreamsSync } from './dynamodb/dynamoDbStreams.js'
 import { DynamoDBTableSync } from './dynamodb/tables.js'
 import { VpcEndpointsSync } from './ec2/vpcEndpoints.js'
@@ -12,6 +13,7 @@ import { GlueCatalogSync } from './glue/catalogs.js'
 import { AuthorizationDetailsSync } from './iam/authorizationDetails.js'
 import { IdentityProviderSyncs } from './iam/identityProviders.js'
 import { InstanceProfilesSync } from './iam/instanceProfiles.js'
+import { IotPoliciesSync } from './iot/policies.js'
 import { KafkaClustersSync } from './kafka/clusters.js'
 import { KinesisDataStreamsSync } from './kinesis/dataStreams.js'
 import { KeySync } from './kms/key.js'
@@ -30,6 +32,7 @@ import { S3DirectoryBucketsSync } from './s3express/s3DirectoryBucketsSync.js'
 import { S3OutpostsAccessPointsSync, S3OutpostsBucketsSync } from './s3outposts/s3OutpostsSyncs.js'
 import { S3TableBucketsSync } from './s3tables/s3TablesSync.js'
 import { SecretSync } from './secretsmanager/secrets.js'
+import { SesIdentitiesSync } from './ses/identities.js'
 import { SnsTopicsSync } from './sns/topics.js'
 import { SqsQueueSync } from './sqs/queues.js'
 import { SsoDataSync } from './sso/ssoInstances.js'
@@ -39,6 +42,7 @@ const allSyncs = [
   AccountS3BpaSync,
   AuthorizationDetailsSync,
   BackupVaultsSync,
+  CodeArtifactRepositoriesSync,
   DynamoDbStreamsSync,
   DynamoDBTableSync,
   ...EcrSyncs,
@@ -47,6 +51,7 @@ const allSyncs = [
   EventBridgeEventBusesSync,
   InstanceProfilesSync,
   ...IdentityProviderSyncs,
+  IotPoliciesSync,
   GlacierVaultsSync,
   GlueCatalogSync,
   KafkaClustersSync,
@@ -68,6 +73,7 @@ const allSyncs = [
   S3OutpostsBucketsSync,
   S3TableBucketsSync,
   SecretSync,
+  SesIdentitiesSync,
   SnsTopicsSync,
   SqsQueueSync,
   SsoDataSync,
