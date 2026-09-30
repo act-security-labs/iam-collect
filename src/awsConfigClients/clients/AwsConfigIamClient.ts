@@ -11,7 +11,7 @@ import {
   ListSAMLProvidersCommand,
   type ManagedPolicyDetail
 } from '@aws-sdk/client-iam'
-import { splitArnParts } from '@cloud-copilot/iam-utils'
+import { splitArnParts } from '@actsecurity/iam-utils'
 import { AwsClientPool } from '../../aws/ClientPool.js'
 import { type AwsCredentialProviderWithMetaData } from '../../aws/coreAuth.js'
 import { AbstractClient } from '../../customClients/AbstractClient.js'

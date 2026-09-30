@@ -4,8 +4,8 @@ This folder contains Terraform modules used to deploy iam-collect at scale acros
 
 This will allow you to deploy an S3 bucket and a Step Functions state machine to scan all of your accounts and create either:
 
-- a single folder containing all IAM information. This can be used immediately with [iam-lens](https://github.com/cloud-copilot/iam-lens).
-- a single SQLite database file containing all IAM information. This can be downloaded then queried directly or used with [iam-lens](https://github.com/cloud-copilot/iam-lens).
+- a single folder containing all IAM information. This can be used immediately with [iam-lens](https://github.com/act-security-labs/iam-lens).
+- a single SQLite database file containing all IAM information. This can be downloaded then queried directly or used with [iam-lens](https://github.com/act-security-labs/iam-lens).
 
 ## Notice
 

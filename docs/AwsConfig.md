@@ -37,6 +37,7 @@ If your dataSource is AWS Config, iam-collect skips resource types that are not 
 | iam               | Instance Profiles                 | ✅               | AWS::IAM::Role                                                |
 | apigateway        | Rest APIs                         | ❌               |                                                               |
 | backup            | Backup Vaults                     | ✅               | AWS::Backup::BackupVault                                      |
+| codeartifact      | Repositories                      | ❌               |                                                               |
 | codebuild         | Projects                          | ❌               |                                                               |
 | dynamodb          | Streams                           | ❌               |                                                               |
 | dynamodb          | Tables                            | ❌               |                                                               |
@@ -50,6 +51,7 @@ If your dataSource is AWS Config, iam-collect skips resource types that are not 
 | events            | Event Buses                       | ✅               | AWS::Events::EventBus                                         |
 | glacier           | Vaults                            | ❌               |                                                               |
 | glue              | Root Catalogs                     | ❌               |                                                               |
+| iot               | Policies                          | ❌               |                                                               |
 | kafka             | MSK Clusters                      | ✅               | AWS::MSK::Cluster, AWS::MSK::ClusterPolicy                    |
 | kinesis           | Data Streams                      | ❌               |                                                               |
 | kms               | Keys                              | ✅               | AWS::KMS::Key                                                 |
@@ -74,6 +76,7 @@ If your dataSource is AWS Config, iam-collect skips resource types that are not 
 | sns               | Topics                            | ✅               | AWS::SNS::Topic                                               |
 | sqs               | Queues                            | ✅               | AWS::SQS::Queue                                               |
 | secretsmanager    | Secrets                           | ❌               |                                                               |
+| ses               | Verified Identities               | ❌               |                                                               |
 | sso               | Instances                         | ❌               |                                                               |
 | sso               | Permission Sets                   | ❌               |                                                               |
 

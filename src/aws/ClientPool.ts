@@ -1,4 +1,5 @@
 import { LambdaClient } from '@aws-sdk/client-lambda'
+import { SESClient } from '@aws-sdk/client-ses'
 import { type RetryStrategyV2 } from '@aws-sdk/types'
 import { NodeHttpHandler } from '@smithy/node-http-handler'
 import type { Client } from '@smithy/smithy-client'
@@ -19,6 +20,12 @@ const retrySettings: Record<string, DefaultRateLimiterOptions> = {
     minFillRate: 0.2, // lower baseline QPS (default 0.5)
     scaleConstant: 0.1, // slower cubic ramp (default 0.4)
     smooth: 0.5 // dampen measured rate (default 0.8)
+  },
+  [SESClient.name]: {
+    beta: 0.4, // SES identity APIs are limited to one request per second
+    minFillRate: 0.2,
+    scaleConstant: 0.1,
+    smooth: 0.5
   }
 }
 

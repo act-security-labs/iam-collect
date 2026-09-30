@@ -7,7 +7,7 @@ import {
   parseCliArguments,
   stringArgument,
   stringArrayArgument
-} from '@cloud-copilot/cli'
+} from '@actsecurity/cli'
 import { conductLogAnalysis } from './analysis/analyze.js'
 import { loadConfigFiles } from './config/configFile.js'
 import { createDefaultConfiguration } from './config/createConfigFile.js'
@@ -17,7 +17,7 @@ import { downloadData } from './download/download.js'
 import { index } from './index/index.js'
 import { mergeSqliteDatabases } from './mergeSqlite/mergeSqlite.js'
 import { type AwsService } from './services.js'
-import { type LogLevel, LogLevels, setLogger, StandardLogger } from '@cloud-copilot/log'
+import { type LogLevel, LogLevels, setLogger, StandardLogger } from '@actsecurity/log'
 
 /**
  * For some reason the AWS SDK v3 looks for AWS_REGION and not AWS_DEFAULT_REGION
@@ -138,7 +138,7 @@ const main = async () => {
       expectOperands: false,
       version: {
         currentVersion: iamCollectVersion,
-        checkForUpdates: '@cloud-copilot/iam-collect'
+        checkForUpdates: '@actsecurity/iam-collect'
       }
     }
   )

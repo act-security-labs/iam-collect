@@ -1,4 +1,4 @@
-import { loadPolicy, type Policy } from '@cloud-copilot/iam-policy'
+import { loadPolicy, type Policy } from '@actsecurity/iam-policy'
 import { type Indexer } from '../indexer.js'
 
 interface PrincipalsToTrustPoliciesIndex {

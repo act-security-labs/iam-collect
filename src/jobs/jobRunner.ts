@@ -1,4 +1,4 @@
-import { log } from '@cloud-copilot/log'
+import { log } from '@actsecurity/log'
 import { type Job, type JobContext, type JobResult } from './jobQueue.js'
 
 /**

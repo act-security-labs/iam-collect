@@ -1,4 +1,4 @@
-import { ConcurrentWorkerPool } from '@cloud-copilot/job'
+import { ConcurrentWorkerPool } from '@actsecurity/job'
 import { getCredentials } from '../aws/auth.js'
 import { AwsClientPool } from '../aws/ClientPool.js'
 import {
@@ -30,7 +30,7 @@ import { createStorageClient } from '../persistence/util.js'
 import { getEnabledRegions } from '../regions.js'
 import { allServices } from '../services.js'
 import { getGlobalSyncsForService, getRegionalSyncsForService } from '../syncs/syncMap.js'
-import { log } from '@cloud-copilot/log'
+import { log } from '@actsecurity/log'
 
 /**
  * Download data from AWS services.

@@ -1,11 +1,11 @@
-import { ConcurrentWorkerPool, type Job } from '@cloud-copilot/job'
+import { ConcurrentWorkerPool, type Job } from '@actsecurity/job'
 import type { Client, Command } from '@smithy/smithy-client'
 import { AwsClientPool } from '../aws/ClientPool.js'
 import { type AwsCredentialProviderWithMetaData } from '../aws/coreAuth.js'
 import { type AwsIamStore, type ResourceTypeParts } from '../persistence/AwsIamStore.js'
 import { type AwsService } from '../services.js'
 import { runAndCatchAccessDeniedWithLog, withDnsRetry } from '../utils/client-tools.js'
-import { log } from '@cloud-copilot/log'
+import { log } from '@actsecurity/log'
 import { convertTagsToRecord, type Tags } from '../utils/tags.js'
 import { type DataRecord, type Sync, syncData, type SyncOptions } from './sync.js'
 

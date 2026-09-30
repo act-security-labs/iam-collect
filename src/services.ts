@@ -4,6 +4,7 @@
 export const allServices = [
   'apigateway',
   'backup',
+  'codeartifact',
   'codebuild',
   'dynamodb',
   'ec2',
@@ -15,6 +16,7 @@ export const allServices = [
   'glacier',
   'glue',
   'iam',
+  'iot',
   'kafka',
   'kinesis',
   'kms',
@@ -27,6 +29,7 @@ export const allServices = [
   's3outposts',
   's3tables',
   'secretsmanager',
+  'ses',
   'sns',
   'sqs',
   'sso'

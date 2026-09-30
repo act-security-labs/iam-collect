@@ -14,7 +14,7 @@ import {
 import { type AwsCredentialProviderWithMetaData } from '../../aws/coreAuth.js'
 import { runAndCatch404 } from '../../utils/client-tools.js'
 import { parseIfPresent } from '../../utils/json.js'
-import { log } from '@cloud-copilot/log'
+import { log } from '@actsecurity/log'
 import { convertTagsToRecord } from '../../utils/tags.js'
 import { type DataRecord, type Sync, syncData } from '../sync.js'
 import { paginateResource } from '../typedSync.js'
