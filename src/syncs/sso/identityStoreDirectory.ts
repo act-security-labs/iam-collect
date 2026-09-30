@@ -7,8 +7,8 @@ import {
   ListUsersCommand,
   type User
 } from '@aws-sdk/client-identitystore'
-import { type Job } from '@cloud-copilot/job'
-import { log } from '@cloud-copilot/log'
+import { type Job } from '@actsecurity/job'
+import { log } from '@actsecurity/log'
 import { withDnsRetry } from '../../utils/client-tools.js'
 import { type DataRecord, type Sync, syncData, type SyncOptions } from '../sync.js'
 import { paginateResource } from '../typedSync.js'

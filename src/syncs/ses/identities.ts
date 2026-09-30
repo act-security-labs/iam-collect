@@ -5,8 +5,8 @@ import {
   ListIdentityPoliciesCommand,
   SESClient
 } from '@aws-sdk/client-ses'
-import { type Job } from '@cloud-copilot/job'
-import { log } from '@cloud-copilot/log'
+import { type Job } from '@actsecurity/job'
+import { log } from '@actsecurity/log'
 import { runAndCatchAccessDeniedWithLog, withDnsRetry } from '../../utils/client-tools.js'
 import { parseIfPresent } from '../../utils/json.js'
 import { type DataRecord, type Sync, syncData } from '../sync.js'
