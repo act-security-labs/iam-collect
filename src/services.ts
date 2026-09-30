@@ -15,6 +15,7 @@ export const allServices = [
   'glacier',
   'glue',
   'iam',
+  'iot',
   'kafka',
   'kinesis',
   'kms',
