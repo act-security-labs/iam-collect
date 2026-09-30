@@ -38,6 +38,7 @@ If your dataSource is AWS Config, iam-collect skips resource types that are not 
 | apigateway        | Rest APIs                         | ❌               |                                                               |
 | backup            | Backup Vaults                     | ✅               | AWS::Backup::BackupVault                                      |
 | codeartifact      | Repositories                      | ❌               |                                                               |
+| codebuild         | Projects                          | ❌               |                                                               |
 | dynamodb          | Streams                           | ❌               |                                                               |
 | dynamodb          | Tables                            | ❌               |                                                               |
 | ecr               | Repositories                      | ✅               | AWS::ECR::Repository                                          |

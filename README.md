@@ -148,6 +148,7 @@ If you prefer, you can configure iam-collect to pull data from AWS Config instea
 | apigateway        | Rest APIs                         | id, name, policy, tags                                                                                                              |
 | backup            | Backup Vaults                     | name, key, tags, policy                                                                                                             |
 | codeartifact      | Repositories                      | name, region, domain name, domain owner, administrator account, description, tags, resource policy                                  |
+| codebuild         | Projects                          | name, description, service role, resource access role, encryption key, visibility, public project alias, tags, policy               |
 | dynamodb          | Streams                           | name, region, resource policy                                                                                                       |
 | dynamodb          | Tables                            | name, region, tags, resource policy                                                                                                 |
 | ecr               | Repositories                      | name, region, tags, resource policy, key id                                                                                         |
