@@ -1,3 +1,10 @@
+## [0.1.222](https://github.com/act-security-labs/iam-collect/compare/v0.1.221...v0.1.222) (2026-09-30)
+
+
+### Features
+
+* collect Identity Store directory details ([#348](https://github.com/act-security-labs/iam-collect/issues/348)) ([09d5687](https://github.com/act-security-labs/iam-collect/commit/09d5687554d944efb7067e9355b84206f885d130))
+
 ## [0.1.221](https://github.com/act-security-labs/iam-collect/compare/v0.1.220...v0.1.221) (2026-09-30)
 
 
