@@ -5,8 +5,8 @@ import {
   ListProjectsCommand,
   type Project
 } from '@aws-sdk/client-codebuild'
-import { type Job } from '@cloud-copilot/job'
-import { log } from '@cloud-copilot/log'
+import { type Job } from '@actsecurity/job'
+import { log } from '@actsecurity/log'
 import {
   runAndCatchAccessDeniedWithLog,
   runAndCatchError,
