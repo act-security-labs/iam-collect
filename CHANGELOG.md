@@ -1,3 +1,13 @@
+## [0.1.221](https://github.com/act-security-labs/iam-collect/compare/v0.1.220...v0.1.221) (2026-09-30)
+
+
+### Features
+
+* collect AWS IoT policies ([#347](https://github.com/act-security-labs/iam-collect/issues/347)) ([4b4e6d3](https://github.com/act-security-labs/iam-collect/commit/4b4e6d3faac3d7a22bf65f2ed2c59fe60e4a5a9b))
+* collect CodeArtifact repositories ([#344](https://github.com/act-security-labs/iam-collect/issues/344)) ([d2f0319](https://github.com/act-security-labs/iam-collect/commit/d2f0319890a03af15d003fcb525fd5cc7ae4497d))
+* collect CodeBuild projects ([#346](https://github.com/act-security-labs/iam-collect/issues/346)) ([6869717](https://github.com/act-security-labs/iam-collect/commit/6869717dfb2e1dbc069d90986ae17b11e32fe76f))
+* collect SES identity policies ([#345](https://github.com/act-security-labs/iam-collect/issues/345)) ([cb2e808](https://github.com/act-security-labs/iam-collect/commit/cb2e808f572ac27b0c916fd9c3edae9c51106097))
+
 ## [0.1.220](https://github.com/act-security-labs/iam-collect/compare/v0.1.219...v0.1.220) (2026-09-26)
 
 ## [0.1.219](https://github.com/act-security-labs/iam-collect/compare/v0.1.218...v0.1.219) (2026-09-19)
