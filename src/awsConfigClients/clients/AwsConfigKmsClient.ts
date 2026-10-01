@@ -1,4 +1,5 @@
 import {
+  DescribeKeyCommand,
   GetKeyPolicyCommand,
   KMSClient,
   ListKeysCommand,
@@ -35,6 +36,7 @@ export class AwsConfigKmsClient extends AbstractClient<AwsConfigClientContext> {
    */
   protected registerCommands(): void {
     this.registerCommand(AwsConfigListKeysCommand)
+    this.registerCommand(AwsConfigDescribeKeyCommand)
     this.registerCommand(AwsConfigGetKeyPolicyCommand)
     this.registerCommand(AwsConfigListResourceTagsCommand)
   }
@@ -50,6 +52,7 @@ const AwsConfigListKeysCommand = awsConfigCommand({
       SELECT
         arn,
         resourceId,
+        configuration.keyManager,
         supplementaryConfiguration.Policy,
         tags
       WHERE
@@ -62,10 +65,12 @@ const AwsConfigListKeysCommand = awsConfigCommand({
     const results = await executeConfigQuery(query, context)
 
     const keys = results.map((resultString) => {
-      const { configItem, supplementaryConfiguration, tags } = parseConfigItem(resultString)
+      const { configItem, configuration, supplementaryConfiguration, tags } =
+        parseConfigItem(resultString)
 
       // Cache data that will be needed by other commands
       // Use KeyId as cache key for both GetKeyPolicyCommand and ListResourceTagsCommand
+      context.putCache(configItem.resourceId, 'keyManager', configuration?.keyManager)
       context.putCache(
         configItem.resourceId,
         'supplementaryConfiguration',
@@ -81,6 +86,26 @@ const AwsConfigListKeysCommand = awsConfigCommand({
 
     return {
       Keys: keys
+    }
+  }
+})
+
+/**
+ * Config-based implementation of KMS DescribeKeyCommand
+ */
+const AwsConfigDescribeKeyCommand = awsConfigCommand({
+  command: DescribeKeyCommand,
+  execute: async (input, context) => {
+    const { KeyId } = input
+
+    if (!KeyId) {
+      throw new ResourceNotFoundException('KeyId is required')
+    }
+
+    const keyManager = context.getCache(KeyId, 'keyManager')
+
+    return {
+      KeyMetadata: keyManager ? { KeyId, KeyManager: keyManager } : undefined
     }
   }
 })

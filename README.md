@@ -164,7 +164,7 @@ If you prefer, you can configure iam-collect to pull data from AWS Config instea
 | iot               | Policies                          | name, default version, default version doc, attachment targets                                                                      |
 | kafka             | MSK Clusters                      | name, policy, kms key, tags                                                                                                         |
 | kinesis           | Data Streams                      | name, encryption type, key id, policy, tags                                                                                         |
-| kms               | Keys                              | id, policy, tags                                                                                                                    |
+| kms               | Keys                              | id, AWS/Customer managed, policy, tags                                                                                              |
 | lambda            | Functions                         | name, role, tags, policy                                                                                                            |
 | lambda            | Function Aliases                  | name, role, alias, version, policy                                                                                                  |
 | lambda            | Layer Versions                    | name, version, policy                                                                                                               |

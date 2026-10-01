@@ -1,4 +1,5 @@
 import {
+  DescribeKeyCommand,
   GetKeyPolicyCommand,
   KMSClient,
   ListKeysCommand,
@@ -25,6 +26,12 @@ export const KeySync = createTypedSyncOperation(
       region: region
     }),
     extraFields: {
+      keyManager: async (client, key) => {
+        return runAndCatch404(async () => {
+          const describeResult = await client.send(new DescribeKeyCommand({ KeyId: key.KeyId }))
+          return describeResult.KeyMetadata?.KeyManager
+        })
+      },
       tags: async (client, key) => {
         return runAndCatch404(async () => {
           const tagResult = await client.send(new ListResourceTagsCommand({ KeyId: key.KeyId }))
@@ -47,7 +54,8 @@ export const KeySync = createTypedSyncOperation(
     arn: (func) => func.KeyArn!,
     results: (func) => ({
       metadata: {
-        id: func.KeyId
+        id: func.KeyId,
+        ...(func.extraFields.keyManager === 'AWS' ? { awsManaged: true } : {})
       },
       policy: func.extraFields.policy
     })
