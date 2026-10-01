@@ -1,3 +1,10 @@
+## [0.1.223](https://github.com/act-security-labs/iam-collect/compare/v0.1.222...v0.1.223) (2026-10-01)
+
+
+### Features
+
+* add AWS-managed KMS key metadata ([#357](https://github.com/act-security-labs/iam-collect/issues/357)) ([335d599](https://github.com/act-security-labs/iam-collect/commit/335d5997096acade0b8d3adfc8cfc0810fe84cb0))
+
 ## [0.1.222](https://github.com/act-security-labs/iam-collect/compare/v0.1.221...v0.1.222) (2026-09-30)
 
 
