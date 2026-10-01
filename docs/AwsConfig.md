@@ -21,7 +21,7 @@ Please review the table below to see which resource types are supported to get p
 
 Many resource types are tracked by AWS Config, but not all associated policies are tracked. If you see anything that you think can be added, please open an issue with an example of the AWS Config query that returns the policy information.
 
-If your dataSource is AWS Config, iam-collect skips resource types that are not supported in the table below.
+If your dataSource is AWS Config, iam-collect skips resource types that are not supported in the table below. For KMS keys, AWS Config also provides the AWS-managed key classification recorded in key metadata.
 
 - ✅ Policy Available in Config
 - ❌ Policy Not available in Config

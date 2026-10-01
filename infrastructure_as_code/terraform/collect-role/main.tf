@@ -113,6 +113,7 @@ data "aws_iam_policy_document" "collect_policy" {
       "kinesis:GetResourcePolicy",
       "kinesis:ListStreams",
       "kinesis:ListTagsForStream",
+      "kms:DescribeKey",
       "kms:GetKeyPolicy",
       "kms:ListKeys",
       "kms:ListResourceTags",
