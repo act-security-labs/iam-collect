@@ -165,7 +165,7 @@
     "@actsecurity/job": "^0.1.65",
     "@actsecurity/log": "^0.1.60",
     "@smithy/smithy-client": "^4.2.0",
-    "@smithy/util-retry": "^4.0.2",
+    "@smithy/util-retry": "^4.3.0",
     "better-sqlite3": "^12.2.0",
     "jsonc-parser": "^3.3.1"
   }
