@@ -109,15 +109,19 @@ async function runIndexers(
   const indexer = indexerJobs[0].indexer
   const storage = createStorageClient(storageConfig, partition, false)
 
-  while (!saved && saveAttempts < 3) {
-    const cache = await indexer.getCache(storage)
-    for (const job of indexerJobs) {
-      await indexer.updateCache(cache.data, job.accountId, job.regions, storage)
+  try {
+    while (!saved && saveAttempts < 3) {
+      const cache = await indexer.getCache(storage)
+      for (const job of indexerJobs) {
+        await indexer.updateCache(cache.data, job.accountId, job.regions, storage)
+      }
+      saved = await indexer.saveCache(storage, cache.data, cache.lockId)
+      saveAttempts++
     }
-    saved = await indexer.saveCache(storage, cache.data, cache.lockId)
-    saveAttempts++
-  }
-  if (!saved) {
-    throw new Error(`Failed to save indexer ${indexer.name} after ${saveAttempts} attempts`)
+    if (!saved) {
+      throw new Error(`Failed to save indexer ${indexer.name} after ${saveAttempts} attempts`)
+    }
+  } finally {
+    await storage.close?.()
   }
 }
