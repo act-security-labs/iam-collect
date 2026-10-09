@@ -134,7 +134,9 @@ export class AwsClientPool {
   }
 
   private makeRetryStrategy(rateLimiterOptions: DefaultRateLimiterOptions): RetryStrategyV2 {
-    return new AdaptiveRetryStrategy(async () => 20, {
+    // Smithy ignores a provider's limit when rate-limiter options are supplied.
+    // Pass the fixed limit directly instead of falling back to three attempts.
+    return new AdaptiveRetryStrategy(20, {
       rateLimiter: new DefaultRateLimiter(rateLimiterOptions)
     })
   }
