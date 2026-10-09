@@ -1,6 +1,6 @@
 {
   "name": "@actsecurity/iam-collect",
-  "version": "0.1.224",
+  "version": "0.1.225",
   "description": "Collect IAM information from AWS Accounts",
   "repository": {
     "type": "git",

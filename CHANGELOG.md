@@ -1,3 +1,10 @@
+## [0.1.225](https://github.com/act-security-labs/iam-collect/compare/v0.1.224...v0.1.225) (2026-10-09)
+
+
+### Bug Fixes
+
+* preserve adaptive retry attempt limit with custom rate limiter ([#359](https://github.com/act-security-labs/iam-collect/issues/359)) ([023f6f1](https://github.com/act-security-labs/iam-collect/commit/023f6f173511c9bbbe21f544849b1216af00a3d1))
+
 ## [0.1.224](https://github.com/act-security-labs/iam-collect/compare/v0.1.223...v0.1.224) (2026-10-03)
 
 ## [0.1.223](https://github.com/act-security-labs/iam-collect/compare/v0.1.222...v0.1.223) (2026-10-01)
