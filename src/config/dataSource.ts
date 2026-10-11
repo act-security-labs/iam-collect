@@ -7,13 +7,13 @@ import { type DataSourceConfig, type DataSourceType } from '../config/config.js'
  *
  * @param dataSourceConfig The data source configuration
  *
- * @returns An instance of the correct AwsClientPool implementation
+ * @returns A new pool owned by the caller, which must clear it after use
  */
 export async function createClientPool(
   dataSourceConfig: DataSourceConfig | undefined
 ): Promise<AwsClientPool> {
   if (!dataSourceConfig) {
-    return AwsClientPool.defaultInstance
+    return new AwsClientPool()
   }
 
   // Default to aws-sdk if no dataSource is specified
@@ -22,7 +22,7 @@ export async function createClientPool(
   if (dataSourceType === 'aws-config') {
     return new AwsConfigClientPool(dataSourceConfig.config || {})
   } else if (dataSourceType === 'aws-sdk') {
-    return AwsClientPool.defaultInstance
+    return new AwsClientPool()
   }
 
   throw new Error(`Unsupported data source type: ${dataSourceType}`)
