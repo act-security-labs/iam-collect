@@ -146,7 +146,7 @@ export const S3GeneralPurposeBucketSync: Sync = {
       })
     )
 
-    syncData(
+    await syncData(
       augmentedBuckets,
       storage,
       accountId,

@@ -33,7 +33,12 @@ export class SqliteAwsIamStore implements AwsIamStore {
   ) {
     this.stringifyJson = createStorageStringifier(options)
     this.db = new DatabaseConstructor(this.dbPath)
-    this.init()
+    try {
+      this.init()
+    } catch (error) {
+      this.db.close()
+      throw error
+    }
   }
 
   close() {
