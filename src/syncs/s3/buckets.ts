@@ -1,6 +1,8 @@
 import {
   type Bucket,
   GetBucketAbacCommand,
+  GetBucketAclCommand,
+  type GetBucketAclOutput,
   GetBucketEncryptionCommand,
   GetBucketPolicyCommand,
   GetBucketTaggingCommand,
@@ -64,7 +66,8 @@ export const S3GeneralPurposeBucketSync: Sync = {
           blockPublicAccessConfigJob,
           bucketPolicyJob,
           encryptionJob,
-          abacEnabledJob
+          abacEnabledJob,
+          aclJob
         ] = await Promise.all(
           syncOptions.workerPool.enqueueAll([
             {
@@ -106,6 +109,14 @@ export const S3GeneralPurposeBucketSync: Sync = {
                 })
               },
               properties: {}
+            },
+            {
+              execute: () => {
+                return withDnsRetry(async () => {
+                  return getBucketAcl(s3Client, bucket, credentials.accountId, arn)
+                })
+              },
+              properties: {}
             }
           ])
         )
@@ -115,19 +126,21 @@ export const S3GeneralPurposeBucketSync: Sync = {
           blockPublicAccessConfigJob,
           bucketPolicyJob,
           encryptionJob,
-          abacEnabledJob
+          abacEnabledJob,
+          aclJob
         ]) {
           if (job.status === 'rejected') {
             throw job.reason
           }
         }
 
-        const [tags, blockPublicAccessConfig, bucketPolicy, encryption, abacEnabled] = [
+        const [tags, blockPublicAccessConfig, bucketPolicy, encryption, abacEnabled, acl] = [
           (tagsJob as SuccessfulJob).value,
           (blockPublicAccessConfigJob as SuccessfulJob).value,
           (bucketPolicyJob as SuccessfulJob).value,
           (encryptionJob as SuccessfulJob).value,
-          (abacEnabledJob as SuccessfulJob).value
+          (abacEnabledJob as SuccessfulJob).value,
+          (aclJob as SuccessfulJob).value
         ]
 
         return {
@@ -136,6 +149,7 @@ export const S3GeneralPurposeBucketSync: Sync = {
           bpa: blockPublicAccessConfig,
           policy: bucketPolicy,
           encryption: encryption?.Rules,
+          acl,
           metadata: {
             name: bucket.Name!,
             region: region,
@@ -146,7 +160,7 @@ export const S3GeneralPurposeBucketSync: Sync = {
       })
     )
 
-    syncData(
+    await syncData(
       augmentedBuckets,
       storage,
       accountId,
@@ -214,10 +228,40 @@ async function getBucketPolicy(
 }
 
 /**
+ * Get the ACL for a bucket.
+ *
+ * @param client the S3 client to use
+ * @param bucket the bucket to get the ACL for
+ * @param accountId the account ID of the bucket owner
+ * @param arn the ARN of the bucket
+ * @returns the bucket ACL owner and grants, if returned by S3
+ */
+async function getBucketAcl(
+  client: S3Client,
+  bucket: Bucket,
+  accountId: string,
+  arn: string
+): Promise<GetBucketAclOutput | undefined> {
+  const command = new GetBucketAclCommand({
+    Bucket: bucket.Name!,
+    ExpectedBucketOwner: accountId
+  })
+  const acl = await runAndCatchAccessDeniedWithLog(arn, 's3', gpBuckets, 'acl', async () => {
+    return runAndCatch404(async () => {
+      const { Grants, Owner } = await client.send(command)
+      return Grants || Owner ? { Grants, Owner } : undefined
+    })
+  })
+
+  return acl
+}
+
+/**
  * Get the public access block configuration for a bucket.
  *
  * @param client The S3 client to use.
  * @param bucket the bucket to get the public access settings for
+ * @param arn the ARN of the bucket
  * @returns the public access block configuration for the bucket, if any
  */
 async function getBucketPublicAccessSettings(

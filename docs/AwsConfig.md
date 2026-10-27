@@ -60,7 +60,7 @@ If your dataSource is AWS Config, iam-collect skips resource types that are not 
 | lambda            | Layer Versions                    | ❌               |                                                               |
 | ram               | Shared Resources                  | ❌               |                                                               |
 | s3                | Access Points                     | ✅               | AWS::S3::AccessPoint                                          |
-| s3                | Buckets                           | ✅               | AWS::S3::Bucket                                               |
+| s3                | Buckets                           | ✅               | AWS::S3::Bucket (including supplementary ACL data)            |
 | s3                | Multi Region Access Points        | ❌               |                                                               |
 | s3                | Account Public Access Block       | ✅               | AWS::S3::AccountPublicAccessBlock                             |
 | s3-object-lambda  | Object Lambda Access Points       | ❌               |                                                               |
