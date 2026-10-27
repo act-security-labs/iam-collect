@@ -1,3 +1,10 @@
+## [0.1.229](https://github.com/act-security-labs/iam-collect/compare/v0.1.228...v0.1.229) (2026-10-27)
+
+
+### Features
+
+* collect S3 bucket ACLs ([#364](https://github.com/act-security-labs/iam-collect/issues/364)) ([2debc74](https://github.com/act-security-labs/iam-collect/commit/2debc74b1542a8e95f3c4672df2938af37fa1960))
+
 ## [0.1.228](https://github.com/act-security-labs/iam-collect/compare/v0.1.227...v0.1.228) (2026-10-24)
 
 ## [0.1.227](https://github.com/act-security-labs/iam-collect/compare/v0.1.226...v0.1.227) (2026-10-17)
