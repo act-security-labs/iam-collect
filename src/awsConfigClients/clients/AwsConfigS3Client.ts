@@ -1,4 +1,7 @@
 import {
+  GetBucketAclCommand,
+  type GetBucketAclOutput,
+  type Grantee,
   GetBucketEncryptionCommand,
   GetBucketPolicyCommand,
   GetBucketTaggingCommand,
@@ -35,6 +38,7 @@ export class AwsConfigS3Client extends AbstractClient<AwsConfigClientContext> {
   }
 
   protected registerCommands(): void {
+    this.registerCommand(AwsConfigGetBucketAclCommand)
     this.registerCommand(AwsConfigGetBucketPolicyCommand)
     this.registerCommand(AwsConfigGetBucketEncryptionCommand)
     this.registerCommand(AwsConfigGetBucketTaggingCommand)
@@ -58,6 +62,7 @@ const AwsConfigListBucketsCommand = awsConfigCommand({
         resourceName,
         configuration.name,
         configuration.creationDate,
+        supplementaryConfiguration.AccessControlList,
         supplementaryConfiguration.BucketPolicy,
         supplementaryConfiguration.ServerSideEncryptionConfiguration,
         supplementaryConfiguration.PublicAccessBlockConfiguration,
@@ -77,8 +82,13 @@ const AwsConfigListBucketsCommand = awsConfigCommand({
 
       context.putCache(
         configItem.resourceName,
+        'acl',
+        supplementaryConfiguration?.AccessControlList
+      )
+      context.putCache(
+        configItem.resourceName,
         'policy',
-        supplementaryConfiguration?.BucketPolicy.policyText
+        supplementaryConfiguration?.BucketPolicy?.policyText
       )
       context.putCache(
         configItem.resourceName,
@@ -143,6 +153,70 @@ const AwsConfigListDirectoryBucketsCommand = awsConfigCommand({
     }
   }
 })
+
+/**
+ * Config-based implementation of S3 GetBucketAclCommand.
+ *
+ * @returns ACL owner and grants mapped from AWS Config supplementary data.
+ */
+const AwsConfigGetBucketAclCommand = awsConfigCommand({
+  command: GetBucketAclCommand,
+  execute: async (input, context) => {
+    const { Bucket } = input
+    if (!Bucket) {
+      throw new Error('Bucket parameter is required')
+    }
+
+    return mapConfigAclToSdkOutput(context.getCache(Bucket, 'acl'))
+  }
+})
+
+/**
+ * Map an AWS Config access control list to the S3 GetBucketAcl output shape.
+ *
+ * @param acl the lower-camel AWS Config access control list
+ * @returns the SDK-compatible bucket ACL output
+ */
+function mapConfigAclToSdkOutput(acl: any): GetBucketAclOutput {
+  if (!acl) {
+    return {}
+  }
+
+  return {
+    Owner: acl.owner
+      ? {
+          ID: acl.owner.id,
+          DisplayName: acl.owner.displayName
+        }
+      : undefined,
+    Grants: acl.grantSet?.map((grant: any) => ({
+      Grantee: mapConfigGranteeToSdk(grant.grantee),
+      Permission: grant.permission
+    }))
+  }
+}
+
+/**
+ * Map an AWS Config ACL grantee to the S3 SDK grantee shape.
+ *
+ * @param grantee the lower-camel AWS Config ACL grantee
+ * @returns the SDK-compatible ACL grantee
+ */
+function mapConfigGranteeToSdk(grantee: any): Grantee | undefined {
+  if (!grantee) {
+    return undefined
+  }
+
+  return {
+    ID: grantee.id,
+    DisplayName: grantee.displayName,
+    EmailAddress: grantee.emailAddress,
+    URI: grantee.uri,
+    Type:
+      grantee.type ??
+      (grantee.uri ? 'Group' : grantee.emailAddress ? 'AmazonCustomerByEmail' : 'CanonicalUser')
+  }
+}
 
 /**
  * Config-based implementation of S3 GetBucketPolicyCommand

@@ -111,6 +111,7 @@ AWS ARNs are converted to filesystem paths using these rules:
 - **`inline-policies.json`**: IAM entity inline policies
 - **`tags.json`**: Resource tags
 - **`encryption.json`**: Encryption configuration
+- **`acl.json`**: Bucket access control list owner and grants (S3)
 - **`bpa.json`**: Block Public Access settings (S3)
 
 Identity Store directory resources use their AWS Identity Store ARNs and are stored under

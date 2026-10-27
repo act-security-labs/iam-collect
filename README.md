@@ -170,7 +170,7 @@ If you prefer, you can configure iam-collect to pull data from AWS Config instea
 | lambda            | Layer Versions                    | name, version, policy                                                                                                               |
 | ram               | Shared Resources                  | resource shares, resource policy                                                                                                    |
 | s3                | Access Points                     | name, bucket, bucket account, policy, block public access configuration, network origin, vpc, alias, endpoints                      |
-| s3                | Buckets                           | name, region, tags, policy, block public access configuration, default encryption                                                   |
+| s3                | Buckets                           | name, region, tags, policy, ACL, block public access configuration, default encryption                                              |
 | s3                | Multi Region Access Points        | name, alias, regions, policy, block public access configuration                                                                     |
 | s3-object-lambda  | Object Lambda Access Points       | name, alias, policy, block public access configuration                                                                              |
 | s3express         | Directory Buckets                 | name, encryption settings, policy                                                                                                   |
