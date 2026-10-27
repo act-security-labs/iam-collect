@@ -14,14 +14,18 @@ export async function getTokenInfo(credentials: AwsCredentialIdentity): Promise<
 }> {
   const stsClient = new STSClient({ credentials })
   const command = new GetCallerIdentityCommand({})
-  const response = await stsClient.send(command)
-  const accountId = response.Account
-  const arn = response.Arn
-  const arnParts = arn!.split(':')
-  const partition = arnParts[1]
-  return {
-    accountId: accountId!,
-    partition: partition,
-    arn: arn!
+  try {
+    const response = await stsClient.send(command)
+    const accountId = response.Account
+    const arn = response.Arn
+    const arnParts = arn!.split(':')
+    const partition = arnParts[1]
+    return {
+      accountId: accountId!,
+      partition: partition,
+      arn: arn!
+    }
+  } finally {
+    stsClient.destroy()
   }
 }
