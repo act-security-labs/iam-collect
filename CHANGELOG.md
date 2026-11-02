@@ -1,3 +1,10 @@
+## [0.1.232](https://github.com/act-security-labs/iam-collect/compare/v0.1.231...v0.1.232) (2026-11-02)
+
+
+### Features
+
+* standardize case-insensitive comparisons ([#367](https://github.com/act-security-labs/iam-collect/issues/367)) ([cd1bf71](https://github.com/act-security-labs/iam-collect/commit/cd1bf7186d520fcb61793c86f6cc4d84c4a4809b))
+
 ## [0.1.231](https://github.com/act-security-labs/iam-collect/compare/v0.1.230...v0.1.231) (2026-10-31)
 
 ## [0.1.230](https://github.com/act-security-labs/iam-collect/compare/v0.1.229...v0.1.230) (2026-10-31)
