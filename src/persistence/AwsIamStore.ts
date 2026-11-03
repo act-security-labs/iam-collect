@@ -58,6 +58,11 @@ export type OrganizationPolicyType = 'scps' | 'rcps' | 's3-policies'
  */
 export interface AwsIamStore {
   /**
+   * Release resources owned by this store after all operations have completed.
+   */
+  close?(): void | Promise<void>
+
+  /**
    * Saves metadata for a given AWS resource.
    *
    * If the data is any form of empty content (undefined, null, empty string, empty object, or empty array)

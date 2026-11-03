@@ -186,7 +186,7 @@ export const AuthorizationDetailsSync: Sync = {
       }
     })
 
-    syncData(
+    await syncData(
       userData,
       storage,
       accountId,
