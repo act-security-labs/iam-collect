@@ -1,3 +1,10 @@
+## [0.1.234](https://github.com/act-security-labs/iam-collect/compare/v0.1.233...v0.1.234) (2026-11-09)
+
+
+### Bug Fixes
+
+* stagger dependency update schedule ([#369](https://github.com/act-security-labs/iam-collect/issues/369)) ([1ea7c7d](https://github.com/act-security-labs/iam-collect/commit/1ea7c7d0df880627afd2bc8af8ce5a84469ad1c3))
+
 ## [0.1.233](https://github.com/act-security-labs/iam-collect/compare/v0.1.232...v0.1.233) (2026-11-07)
 
 ## [0.1.232](https://github.com/act-security-labs/iam-collect/compare/v0.1.231...v0.1.232) (2026-11-02)
