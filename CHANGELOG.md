@@ -1,3 +1,10 @@
+## [0.1.235](https://github.com/act-security-labs/iam-collect/compare/v0.1.234...v0.1.235) (2026-11-11)
+
+
+### Features
+
+* collect CloudFront origin access identities ([#370](https://github.com/act-security-labs/iam-collect/issues/370)) ([e1acb3a](https://github.com/act-security-labs/iam-collect/commit/e1acb3a8c9859fad26b709e4354374240825ea4b))
+
 ## [0.1.234](https://github.com/act-security-labs/iam-collect/compare/v0.1.233...v0.1.234) (2026-11-09)
 
 
