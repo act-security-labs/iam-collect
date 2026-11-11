@@ -10,6 +10,7 @@
         "backup:GetBackupVaultAccessPolicy",
         "backup:ListBackupVaults",
         "backup:ListTags",
+        "cloudfront:ListCloudFrontOriginAccessIdentities",
         "codeartifact:GetRepositoryPermissionsPolicy",
         "codeartifact:ListRepositories",
         "codeartifact:ListTagsForResource",

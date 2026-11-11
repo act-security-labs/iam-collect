@@ -1,6 +1,7 @@
 import { type AwsService, lowerCaseService } from '../services.js'
 import { RestApisSync } from './apigateway/gateways.js'
 import { BackupVaultsSync } from './backup/backupVaults.js'
+import { CloudFrontOriginAccessIdentitiesSync } from './cloudfront/originAccessIdentities.js'
 import { CodeArtifactRepositoriesSync } from './codeartifact/repositories.js'
 import { CodeBuildProjectsSync } from './codebuild/projects.js'
 import { DynamoDbStreamsSync } from './dynamodb/dynamoDbStreams.js'
@@ -43,6 +44,7 @@ const allSyncs = [
   AccountS3BpaSync,
   AuthorizationDetailsSync,
   BackupVaultsSync,
+  CloudFrontOriginAccessIdentitiesSync,
   CodeArtifactRepositoriesSync,
   CodeBuildProjectsSync,
   DynamoDbStreamsSync,
