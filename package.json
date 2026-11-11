@@ -125,6 +125,7 @@
     "@aws-sdk/client-account": "^3.758.0",
     "@aws-sdk/client-api-gateway": "^3.799.0",
     "@aws-sdk/client-backup": "^3.812.0",
+    "@aws-sdk/client-cloudfront": "^3.1164.0",
     "@aws-sdk/client-codeartifact": "^3.1121.0",
     "@aws-sdk/client-codebuild": "^3.1121.0",
     "@aws-sdk/client-config-service": "^3.886.0",

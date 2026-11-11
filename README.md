@@ -147,6 +147,7 @@ If you prefer, you can configure iam-collect to pull data from AWS Config instea
 | iam               | Instance Profiles                 | name, roles, id, path, tags                                                                                                         |
 | apigateway        | Rest APIs                         | id, name, policy, tags                                                                                                              |
 | backup            | Backup Vaults                     | name, key, tags, policy                                                                                                             |
+| cloudfront        | Origin Access Identities          | id, comment, S3 canonical user ID                                                                                                   |
 | codeartifact      | Repositories                      | name, region, domain name, domain owner, administrator account, description, tags, resource policy                                  |
 | codebuild         | Projects                          | name, description, service role, resource access role, encryption key, visibility, public project alias, tags, policy               |
 | dynamodb          | Streams                           | name, region, resource policy                                                                                                       |
@@ -191,5 +192,7 @@ If you prefer, you can configure iam-collect to pull data from AWS Config instea
 | sso               | Identity Store Users              | username, display name, profile attributes, external ids, groups                                                                    |
 | sso               | Identity Store Groups             | name, description, external ids, members                                                                                            |
 | sso               | Identity Store Group Memberships  | group and member relationships                                                                                                      |
+
+CloudFront origin access identities are the legacy S3 origin access mechanism; this collection does not include origin access controls (OACs).
 
 If you don't see the data you are looking for, please check the [open resource issues](https://github.com/act-security-labs/iam-collect/issues?q=is%3Aissue%20state%3Aopen%20label%3Aresource) and comment on the issue or create a new one.

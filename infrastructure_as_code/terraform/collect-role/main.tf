@@ -57,6 +57,7 @@ data "aws_iam_policy_document" "collect_policy" {
       "backup:GetBackupVaultAccessPolicy",
       "backup:ListBackupVaults",
       "backup:ListTags",
+      "cloudfront:ListCloudFrontOriginAccessIdentities",
       "codeartifact:GetRepositoryPermissionsPolicy",
       "codeartifact:ListRepositories",
       "codeartifact:ListTagsForResource",
