@@ -7,6 +7,8 @@ Some resources are hard to find in AWS. A couple examples are:
 
 For this we index some resource data in the `indexes` folder for each partition. This automatically at the end of any download process. The indexes are updated incrementally and only update the data that has changed. You should never need to manually run indexes.
 
+The `cloudfront-oai-to-accounts` index maps each collected CloudFront origin access identity ID to its owning account ID. Its keys preserve the identity IDs' case, and each partition has its own index. OAIs are global, so updating the CloudFront index refreshes all OAI entries for an account regardless of the selected regions. If the same ID is recorded for different accounts, indexing fails instead of selecting an owner.
+
 ## Optimistic Locking
 
 We use optimistic locking to prevent concurrent index updates from corrupting the index:

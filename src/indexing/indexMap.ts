@@ -3,12 +3,14 @@ import { type Indexer } from './indexer.js'
 import { AccountOrganizationIndexer } from './indexers/accountOrgs.js'
 import { ApiGatewayIndexer } from './indexers/apigateways.js'
 import { S3BucketIndexer } from './indexers/buckets.js'
+import { CloudFrontOriginAccessIdentitiesIndexer } from './indexers/cloudFrontOriginAccessIdentities.js'
 import { IamPrincipalsToTrustPoliciesIndexer } from './indexers/iamPrincipalsToTrustPolicies.js'
 import { VpcEndpointIndexer } from './indexers/vpcs.js'
 
 const allIndexers: Indexer<any>[] = [
   AccountOrganizationIndexer,
   ApiGatewayIndexer,
+  CloudFrontOriginAccessIdentitiesIndexer,
   IamPrincipalsToTrustPoliciesIndexer,
   S3BucketIndexer,
   VpcEndpointIndexer

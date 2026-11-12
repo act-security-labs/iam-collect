@@ -162,7 +162,7 @@
     "@aws-sdk/types": "^3.734.0",
     "@actsecurity/cli": "^0.2.5",
     "@actsecurity/iam-policy": "^0.1.24",
-    "@actsecurity/iam-utils": "^0.1.96",
+    "@actsecurity/iam-utils": "^0.1.99",
     "@actsecurity/job": "^0.1.65",
     "@actsecurity/log": "^0.1.60",
     "@smithy/smithy-client": "^4.2.0",
