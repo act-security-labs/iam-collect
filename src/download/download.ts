@@ -1,5 +1,5 @@
 import { ConcurrentWorkerPool } from '@actsecurity/job'
-import { getCredentials } from '../aws/auth.js'
+import { createCredentialsCache } from '../aws/auth.js'
 import { AwsClientPool } from '../aws/ClientPool.js'
 import {
   type AwsCredentialProviderWithMetaData,
@@ -56,6 +56,7 @@ export async function downloadData(
     concurrency = defaultConcurrency()
   }
   const deleteData = !writeOnly
+  const getCredentials = createCredentialsCache()
 
   const defaultAuthConfig = getDefaultAuthConfig(configs)
   const defaultCredentials = await getNewInitialCredentials(defaultAuthConfig, {
@@ -79,224 +80,253 @@ export async function downloadData(
   // Create the client pool and initialize it
   const dataSourceConfig = getConfiguredDataSource(configs)
   const clientPool = await createClientPool(dataSourceConfig)
-  await clientPool.init()
+  try {
+    await clientPool.init()
 
-  const defaultPartition = defaultCredentials.partition
+    const defaultPartition = defaultCredentials.partition
 
-  const storageConfig = getStorageConfig(configs)
-  if (!storageConfig) {
-    throw new Error('No storage configuration found. Cannot download data.')
-  }
-
-  const storage = createStorageClient(storageConfig, defaultPartition, deleteData)
-
-  const indexJobs: IndexJob[] = []
-
-  log.debug('Starting download runner', { concurrency })
-  const downloadRunner = new JobRunner(concurrency)
-  const workerPool = new ConcurrentWorkerPool(concurrency, log)
-
-  for (const accountId of accountIds) {
-    log.info('Queuing downloads for account', { accountId })
-    const authForAccount = getAccountAuthConfig(accountId, configs)
-    const credentials = await getCredentialsForSync(
-      clientPool,
-      defaultPartition,
-      accountId,
-      authForAccount
-    )
-    const accountPartition = credentials.partition
-    if (accountPartition !== defaultPartition) {
-      //TODO: Consider updating the storage client to handle multiple partitions
-      log.error(
-        `Account ${accountId} is in partition ${accountPartition}, but the default account is in partition ${defaultPartition}. This is not supported.`
-      )
-      throw new Error('Cannot download data for multiple partitions in one run.')
-    }
-    const partitionConfig = getPartitionDefaults(accountPartition)
-    const accountConfigs = [partitionConfig, ...configs]
-    const accountRegions = await getAccountRegions(
-      regions,
-      accountId,
-      configs,
-      credentials,
-      clientPool
-    )
-
-    if (services.length === 0) {
-      services = allServices as unknown as string[]
-    }
-    const syncOptions = {
-      workerPool,
-      writeOnly,
-      clientPool
+    const storageConfig = getStorageConfig(configs)
+    if (!storageConfig) {
+      throw new Error('No storage configuration found. Cannot download data.')
     }
 
-    const enabledServices = servicesForAccount(accountId, accountConfigs, services)
-    for (const service of enabledServices) {
-      log.info('Queuing downloads', { service, accountId })
-      const serviceRegions = regionsForService(service, accountId, accountConfigs, accountRegions)
+    const storage = createStorageClient(storageConfig, defaultPartition, deleteData)
+    try {
+      const indexJobs: IndexJob[] = []
 
-      //Global syncs for the service
-      const globalSyncs = getGlobalSyncsForService(service)
-      const globalRegion = serviceRegions.at(0)!
-      const globalConfig = accountServiceRegionConfig(
-        service,
-        accountId,
-        globalRegion,
-        accountConfigs
-      )
+      log.debug('Starting download runner', { concurrency })
+      const downloadRunner = new JobRunner(concurrency)
+      const workerPool = new ConcurrentWorkerPool(concurrency, log)
+      try {
+        for (const accountId of accountIds) {
+          log.info('Queuing downloads for account', { accountId })
+          const authForAccount = getAccountAuthConfig(accountId, configs)
+          const credentials = await getCredentialsForSync(
+            clientPool,
+            defaultPartition,
+            accountId,
+            authForAccount,
+            getCredentials
+          )
+          const accountPartition = credentials.partition
+          if (accountPartition !== defaultPartition) {
+            //TODO: Consider updating the storage client to handle multiple partitions
+            log.error(
+              `Account ${accountId} is in partition ${accountPartition}, but the default account is in partition ${defaultPartition}. This is not supported.`
+            )
+            throw new Error('Cannot download data for multiple partitions in one run.')
+          }
+          const partitionConfig = getPartitionDefaults(accountPartition)
+          const accountConfigs = [partitionConfig, ...configs]
+          const accountRegions = await getAccountRegions(
+            regions,
+            accountId,
+            configs,
+            credentials,
+            clientPool
+          )
 
-      for (const globalSync of globalSyncs) {
-        const customConfig = customConfigForSync(
-          service,
-          globalSync.name,
-          accountId,
-          globalRegion,
-          accountConfigs
-        )
+          if (services.length === 0) {
+            services = allServices as unknown as string[]
+          }
+          const syncOptions = {
+            workerPool,
+            writeOnly,
+            clientPool
+          }
 
-        if (!clientPool.isSyncSupported(service, globalSync.name, globalRegion)) {
-          log.info(
-            {
-              skippedSync: true,
+          const enabledServices = servicesForAccount(accountId, accountConfigs, services)
+          for (const service of enabledServices) {
+            log.info('Queuing downloads', { service, accountId })
+            const serviceRegions = regionsForService(
               service,
               accountId,
-              sync: globalSync.name,
-              clientPool: clientPool.constructor.name
-            },
-            'Skipping global sync, not supported by data source'
-          )
-          continue
-        }
-        downloadRunner.enqueue({
-          properties: { service, accountId, sync: globalSync.name },
-          execute: async (context) => {
-            const logDetails = {
-              workerId: context.workerId,
-              ...context.properties
-            }
-            const globalCredentials = await getCredentialsForSync(
-              clientPool,
-              defaultPartition,
-              accountId,
-              globalConfig.auth
+              accountConfigs,
+              accountRegions
             )
-            log.debug(logDetails, 'Executing global sync')
-            await globalSync.execute(
+
+            //Global syncs for the service
+            const globalSyncs = getGlobalSyncsForService(service)
+            const globalRegion = serviceRegions.at(0)!
+            const globalConfig = accountServiceRegionConfig(
+              service,
               accountId,
               globalRegion,
-              globalCredentials,
-              storage,
-              globalConfig.endpoint,
-              { ...syncOptions, customConfig }
+              accountConfigs
             )
-            log.trace(logDetails, 'Finished global sync')
-          }
-        })
-      }
 
-      const regionalSyncs = getRegionalSyncsForService(service)
-      //Regional syncs for the service
-      for (const region of serviceRegions) {
-        if (regionalSyncs.length === 0) {
-          continue
-        }
-        log.debug({ service, accountId, region }, 'Queuing regional syncs')
-        const asrConfig = accountServiceRegionConfig(service, accountId, region, accountConfigs)
+            for (const globalSync of globalSyncs) {
+              const customConfig = customConfigForSync(
+                service,
+                globalSync.name,
+                accountId,
+                globalRegion,
+                accountConfigs
+              )
 
-        for (const sync of regionalSyncs) {
-          const includeSync = syncEnabledForRegion(
-            accountId,
-            service,
-            sync.name,
-            accountConfigs,
-            region
-          )
-          if (!includeSync) {
-            log.debug({ service, accountId, region, syncName: sync.name }, 'Skipping regional sync')
-            continue
-          }
-          if (!clientPool.isSyncSupported(service, sync.name, region)) {
-            log.info(
-              {
-                skippedSync: true,
+              if (!clientPool.isSyncSupported(service, globalSync.name, globalRegion)) {
+                log.info(
+                  {
+                    skippedSync: true,
+                    service,
+                    accountId,
+                    sync: globalSync.name,
+                    clientPool: clientPool.constructor.name
+                  },
+                  'Skipping global sync, not supported by data source'
+                )
+                continue
+              }
+              downloadRunner.enqueue({
+                properties: { service, accountId, sync: globalSync.name },
+                execute: async (context) => {
+                  const logDetails = {
+                    workerId: context.workerId,
+                    ...context.properties
+                  }
+                  const globalCredentials = await getCredentialsForSync(
+                    clientPool,
+                    defaultPartition,
+                    accountId,
+                    globalConfig.auth,
+                    getCredentials
+                  )
+                  log.debug(logDetails, 'Executing global sync')
+                  await globalSync.execute(
+                    accountId,
+                    globalRegion,
+                    globalCredentials,
+                    storage,
+                    globalConfig.endpoint,
+                    { ...syncOptions, customConfig }
+                  )
+                  log.trace(logDetails, 'Finished global sync')
+                }
+              })
+            }
+
+            const regionalSyncs = getRegionalSyncsForService(service)
+            //Regional syncs for the service
+            for (const region of serviceRegions) {
+              if (regionalSyncs.length === 0) {
+                continue
+              }
+              log.debug({ service, accountId, region }, 'Queuing regional syncs')
+              const asrConfig = accountServiceRegionConfig(
                 service,
                 accountId,
-                sync: sync.name,
                 region,
-                clientPool: clientPool.constructor.name
-              },
-              'Skipping regional sync, not supported by data source'
-            )
-            continue
-          }
-          const customConfig = customConfigForSync(
-            service,
-            sync.name,
-            accountId,
-            region,
-            accountConfigs
-          )
-          downloadRunner.enqueue({
-            properties: { service, accountId, region, sync: sync.name },
-            execute: async (context) => {
-              const logDetails = {
-                workerId: context.workerId,
-                ...context.properties
+                accountConfigs
+              )
+
+              for (const sync of regionalSyncs) {
+                const includeSync = syncEnabledForRegion(
+                  accountId,
+                  service,
+                  sync.name,
+                  accountConfigs,
+                  region
+                )
+                if (!includeSync) {
+                  log.debug(
+                    { service, accountId, region, syncName: sync.name },
+                    'Skipping regional sync'
+                  )
+                  continue
+                }
+                if (!clientPool.isSyncSupported(service, sync.name, region)) {
+                  log.info(
+                    {
+                      skippedSync: true,
+                      service,
+                      accountId,
+                      sync: sync.name,
+                      region,
+                      clientPool: clientPool.constructor.name
+                    },
+                    'Skipping regional sync, not supported by data source'
+                  )
+                  continue
+                }
+                const customConfig = customConfigForSync(
+                  service,
+                  sync.name,
+                  accountId,
+                  region,
+                  accountConfigs
+                )
+                downloadRunner.enqueue({
+                  properties: { service, accountId, region, sync: sync.name },
+                  execute: async (context) => {
+                    const logDetails = {
+                      workerId: context.workerId,
+                      ...context.properties
+                    }
+                    log.debug(logDetails, 'Executing regional sync')
+                    const regionalCredentials = await getCredentialsForSync(
+                      clientPool,
+                      accountPartition,
+                      accountId,
+                      asrConfig.auth,
+                      getCredentials
+                    )
+
+                    await sync.execute(
+                      accountId,
+                      region,
+                      regionalCredentials,
+                      storage,
+                      asrConfig.endpoint,
+                      { ...syncOptions, customConfig }
+                    )
+                    log.trace(logDetails, 'Finished regional sync')
+                  }
+                })
               }
-              log.debug(logDetails, 'Executing regional sync')
-              const regionalCredentials = await getCredentialsForSync(
-                clientPool,
-                accountPartition,
-                accountId,
-                asrConfig.auth
-              )
-
-              await sync.execute(
-                accountId,
-                region,
-                regionalCredentials,
-                storage,
-                asrConfig.endpoint,
-                { ...syncOptions, customConfig }
-              )
-              log.trace(logDetails, 'Finished regional sync')
             }
-          })
+
+            const indexers = getIndexersForService(service)
+            for (const indexer of indexers) {
+              indexJobs.push({
+                indexer,
+                partition: accountPartition,
+                accountId,
+                regions: serviceRegions
+              })
+            }
+          }
         }
+
+        log.info('Waiting for downloads to complete')
+        await downloadRunner.finishAllWork()
+        log.info('Finished downloads', { jobs: downloadRunner.getResults().length })
+        const failedJobs = downloadRunner.getResults().filter((r) => r.status === 'rejected')
+        if (failedJobs.length > 0) {
+          log.error('Some downloads failed', { failedJobs: failedJobs.length })
+          for (const failedJob of failedJobs) {
+            log.error('Download failed', failedJob.reason, failedJob.properties)
+          }
+          throw new Error(`Failed to download some data. See logs for details.`)
+        }
+
+        if (skipIndex) {
+          log.info('Skipping indexing')
+          return
+        }
+
+        await runIndexJobs(indexJobs, storageConfig, concurrency)
+      } finally {
+        // Queueing can fail after jobs have started. Let those jobs finish creating
+        // and awaiting worker tasks before closing either pool or the storage.
+        await downloadRunner.finishAllWork()
+        await workerPool.finishAllWork()
       }
-
-      const indexers = getIndexersForService(service)
-      for (const indexer of indexers) {
-        indexJobs.push({
-          indexer,
-          partition: accountPartition,
-          accountId,
-          regions: serviceRegions
-        })
-      }
+    } finally {
+      await storage.close?.()
     }
+  } finally {
+    clientPool.clear()
   }
-
-  log.info('Waiting for downloads to complete')
-  await downloadRunner.finishAllWork()
-  log.info('Finished downloads', { jobs: downloadRunner.getResults().length })
-  const failedJobs = downloadRunner.getResults().filter((r) => r.status === 'rejected')
-  if (failedJobs.length > 0) {
-    log.error('Some downloads failed', { failedJobs: failedJobs.length })
-    for (const failedJob of failedJobs) {
-      log.error('Download failed', failedJob.reason, failedJob.properties)
-    }
-    throw new Error(`Failed to download some data. See logs for details.`)
-  }
-
-  if (skipIndex) {
-    log.info('Skipping indexing')
-    return
-  }
-
-  await runIndexJobs(indexJobs, storageConfig, concurrency)
 }
 
 /**
@@ -335,7 +365,8 @@ async function getCredentialsForSync(
   clientPool: AwsClientPool,
   currentPartition: string,
   accountId: string,
-  authConfig: AuthConfig | undefined
+  authConfig: AuthConfig | undefined,
+  getCredentials: ReturnType<typeof createCredentialsCache>
 ): Promise<AwsCredentialProviderWithMetaData> {
   if (clientPool.requiresAwsCredentials()) {
     return getCredentials(accountId, authConfig)
