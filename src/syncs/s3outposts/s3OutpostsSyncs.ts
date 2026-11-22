@@ -35,46 +35,50 @@ export const S3OutpostsBucketsSync: Sync = {
     const regionalBuckets: DataRecord[] = []
     for (const outpost of outposts) {
       const controlClient = controlClientForOutpost(credentials, region, outpost.OutpostId!)
-      const buckets = await paginateResource(
-        outpostsClient,
-        ListRegionalBucketsCommand,
-        'RegionalBucketList',
-        {
-          inputKey: 'NextToken',
-          outputKey: 'NextToken'
-        },
-        {
-          OutpostId: outpost.OutpostId
-        }
-      )
-
-      for (const bucket of buckets) {
-        regionalBuckets.push({
-          arn: bucket.BucketArn!,
-          metadata: {
-            arn: bucket.BucketArn!,
-            name: bucket.Bucket,
-            outpostId: bucket.OutpostId,
-            publicAccessBlockEnabled: bucket.PublicAccessBlockEnabled,
-            bucket: 'true'
+      try {
+        const buckets = await paginateResource(
+          outpostsClient,
+          ListRegionalBucketsCommand,
+          'RegionalBucketList',
+          {
+            inputKey: 'NextToken',
+            outputKey: 'NextToken'
           },
-          policy: await runAndCatch404(async () => {
-            const result = await controlClient.send(
-              new GetBucketPolicyCommand({
-                Bucket: bucket.Bucket!
-              })
-            )
-            return parseIfPresent(result.Policy)
-          }),
-          tags: await runAndCatch404(async () => {
-            const tags = await controlClient.send(
-              new GetBucketTaggingCommand({
-                Bucket: bucket.Bucket!
-              })
-            )
-            return convertTagsToRecord(tags.TagSet)
+          {
+            OutpostId: outpost.OutpostId
+          }
+        )
+
+        for (const bucket of buckets) {
+          regionalBuckets.push({
+            arn: bucket.BucketArn!,
+            metadata: {
+              arn: bucket.BucketArn!,
+              name: bucket.Bucket,
+              outpostId: bucket.OutpostId,
+              publicAccessBlockEnabled: bucket.PublicAccessBlockEnabled,
+              bucket: 'true'
+            },
+            policy: await runAndCatch404(async () => {
+              const result = await controlClient.send(
+                new GetBucketPolicyCommand({
+                  Bucket: bucket.Bucket!
+                })
+              )
+              return parseIfPresent(result.Policy)
+            }),
+            tags: await runAndCatch404(async () => {
+              const tags = await controlClient.send(
+                new GetBucketTaggingCommand({
+                  Bucket: bucket.Bucket!
+                })
+              )
+              return convertTagsToRecord(tags.TagSet)
+            })
           })
-        })
+        }
+      } finally {
+        controlClient.destroy()
       }
     }
 
@@ -112,42 +116,46 @@ export const S3OutpostsAccessPointsSync: Sync = {
     const accessPoints: DataRecord[] = []
     for (const outpost of outposts) {
       const controlClient = controlClientForOutpost(credentials, region, outpost.OutpostId!)
-      const points = await paginateResource(
-        controlClient,
-        ListAccessPointsCommand,
-        'AccessPointList',
-        {
-          inputKey: 'NextToken',
-          outputKey: 'NextToken'
-        },
-        {
-          AccountId: accountId
-        }
-      )
-
-      for (const point of points) {
-        accessPoints.push({
-          arn: point.AccessPointArn!,
-          metadata: {
-            arn: point.AccessPointArn!,
-            name: point.Name,
-            outpostId: outpost.OutpostId,
-            networkOrigin: point.NetworkOrigin,
-            vpc: point.VpcConfiguration?.VpcId,
-            bucket: point.Bucket,
-            bucketAccount: point.BucketAccountId,
-            accesspoint: 'true'
+      try {
+        const points = await paginateResource(
+          controlClient,
+          ListAccessPointsCommand,
+          'AccessPointList',
+          {
+            inputKey: 'NextToken',
+            outputKey: 'NextToken'
           },
-          policy: await runAndCatch404(async () => {
-            const result = await controlClient.send(
-              new GetAccessPointPolicyCommand({
-                Name: point.Name!,
-                AccountId: accountId
-              })
-            )
-            return parseIfPresent(result.Policy)
+          {
+            AccountId: accountId
+          }
+        )
+
+        for (const point of points) {
+          accessPoints.push({
+            arn: point.AccessPointArn!,
+            metadata: {
+              arn: point.AccessPointArn!,
+              name: point.Name,
+              outpostId: outpost.OutpostId,
+              networkOrigin: point.NetworkOrigin,
+              vpc: point.VpcConfiguration?.VpcId,
+              bucket: point.Bucket,
+              bucketAccount: point.BucketAccountId,
+              accesspoint: 'true'
+            },
+            policy: await runAndCatch404(async () => {
+              const result = await controlClient.send(
+                new GetAccessPointPolicyCommand({
+                  Name: point.Name!,
+                  AccountId: accountId
+                })
+              )
+              return parseIfPresent(result.Policy)
+            })
           })
-        })
+        }
+      } finally {
+        controlClient.destroy()
       }
     }
 

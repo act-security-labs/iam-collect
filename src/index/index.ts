@@ -20,34 +20,38 @@ export async function index(
   }
   const storage = createStorageClient(storageConfig, partition, false)
 
-  if (accountIds.length === 0) {
-    accountIds = await storage.listAccountIds()
-  }
-
-  if (services.length === 0) {
-    services = allServices as unknown as AwsService[]
-  }
-
-  if (!concurrency || concurrency <= 0) {
-    concurrency = defaultConcurrency()
-  }
-
-  const indexers = services.reduce((allIndexers, service) => {
-    allIndexers.push(...getIndexersForService(service))
-    return allIndexers
-  }, [] as Indexer<any>[])
-
-  const jobs: IndexJob[] = []
-  for (const accountId of accountIds) {
-    for (const indexer of indexers) {
-      jobs.push({
-        indexer,
-        accountId,
-        regions: regions,
-        partition
-      })
+  try {
+    if (accountIds.length === 0) {
+      accountIds = await storage.listAccountIds()
     }
-  }
 
-  await runIndexJobs(jobs, storageConfig, concurrency)
+    if (services.length === 0) {
+      services = allServices as unknown as AwsService[]
+    }
+
+    if (!concurrency || concurrency <= 0) {
+      concurrency = defaultConcurrency()
+    }
+
+    const indexers = services.reduce((allIndexers, service) => {
+      allIndexers.push(...getIndexersForService(service))
+      return allIndexers
+    }, [] as Indexer<any>[])
+
+    const jobs: IndexJob[] = []
+    for (const accountId of accountIds) {
+      for (const indexer of indexers) {
+        jobs.push({
+          indexer,
+          accountId,
+          regions: regions,
+          partition
+        })
+      }
+    }
+
+    await runIndexJobs(jobs, storageConfig, concurrency)
+  } finally {
+    await storage.close?.()
+  }
 }
